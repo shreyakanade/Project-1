@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Raleway);
+
+@import url(https://fonts.googleapis.com/css?family=Inconsolata);
+
+@import url(https://fonts.googleapis.com/css?family=Walter+Turncoat);
+
+html {
+  padding: 0;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  
+}
+
+.facts{
+  margin-left: 20%; 
+ 
+}
+
+.row{
+  width: 100%;
+}
+*, *:before, *:after {
+  padding-right: 0;
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+  }
+
+#results{
+  font-family: sans-serif;
+  text-align: center;
+}
+
+body{
+  background-image: url("http://vignette3.wikia.nocookie.net/everafterhigh/images/c/c6/Website_-_book_background.jpg/revision/latest?cb=20130901144259");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.books{
+  margin-top: 5%;
+  margin-left: 5%;
+}
+
+#search{
+  text-align: center;
+  height: 45px;
+  width: 45%;
+}
+
+button{
+  height: 45px;
+  width: 45%;
+  background-color: blue;
+  border: 1px solid gray;
+  font-size: 25px;
+  color: white;
+}
+
+button:hover{
+  background-color:steelblue;
+}
+
+h2{
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+}
+
+h1{
+  margin-top: 5%;
+  color: blue;
+  font-family: 'Walter Turncoat', cursive;
+  font-size: 400%;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <h1>BOOK FINDER</h1>
+<div class="row">
+  <div class="col-md-4 books">
+    <input id = "search" placeholder="Title or Author"/><br><br>
+<button onclick="bookSearch()">SEARCH</button>
+  </div>
+  <div class="col-md-4 facts">
+    <div id="results"></div>
+    <img src="" alt="" />
+  </div>
+</div>
+<script>
+    function bookSearch(){
+
+        var search =  document.getElementById("search").value
+        document.getElementById("results").innerHTML = ""
+    
+        $.ajax({
+    
+           url: "https://www.googleapis.com/books/v1/volumes?q=" + search,
+           dataType: "json",
+           success: function(data) {
+                   console.log(data.items)
+                   console.log(data.items[0].volumeInfo.title)
+                   
+               for(i=0;i<3;i++){
+    
+    
+                   var snippet = data.items[i].searchInfo.textSnippet
+                   
+                   
+                   document.getElementById("results").innerHTML += "<h2>" + data.items[i].volumeInfo.title + "</h2>" + "<br>" + snippet +"<br><br>"
+    
+               }
+           },
+    
+           type: 'GET'
+    
+    });
+    
+    
+    }
+</script>
+</body>
+</html>
